@@ -10,7 +10,7 @@ function NavBar() {
   return (
     <Navbar expand="lg" className="navbar-dark bg-dark">
       <Container fluid>
-        <Navbar.Brand href="#">Ligue sportive d'Auvergne</Navbar.Brand>
+        <Navbar.Brand href="Home">Ligue sportive d'Auvergne</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -18,10 +18,10 @@ function NavBar() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#Home">Accueil</Nav.Link>
+            <Nav.Link href="Home">Accueil</Nav.Link>
             <NavDropdown title="Authentification" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#Connexion">Se connecter</NavDropdown.Item>
-              <NavDropdown.Item href="#Inscription">S'inscrire</NavDropdown.Item>
+              <NavDropdown.Item href="Connexion">Se connecter</NavDropdown.Item>
+              <NavDropdown.Item href="Inscription">S'inscrire</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="Panier">Panier</Nav.Link>
           </Nav>
