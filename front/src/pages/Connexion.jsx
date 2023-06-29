@@ -1,25 +1,52 @@
+import {useState} from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
-
+import axios from "axios"; 
 import Image from '../assets/loginImage.jpg'
+import { useNavigate } from "react-router-dom";
 
-export default function Connexion() {
-  const handleSubmit = (event) => {
+
+export default  function Connexion() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      const response = await axios.post('http://localhost:3001/login', { email, password});
+      console.log(response.data.token);
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('firstName',response.data.user.firstName)
+      localStorage.setItem('lastName',response.data.user.lastName)
+
+      if (response.status === 200) {
+        console.log('Authentification réussie');
+      } else {
+        setError('Erreur lors de l\'authentification');
+      }
+      
+      navigate('/Home');
+
+      } catch (error) {
+        setError('Erreur lors de l\'appel à l\'API');
+        console.error(error);
+      }
+
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
   };
 
   return (
@@ -79,10 +106,11 @@ export default function Connexion() {
                   required
                   fullWidth
                   id="email"
-                  label="Pseudo"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <TextField
                   margin="normal"
@@ -93,6 +121,7 @@ export default function Connexion() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button
                   type="submit"

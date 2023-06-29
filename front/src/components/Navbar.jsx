@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -5,8 +6,39 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  const tokenData = localStorage.getItem('token');
+  const nameData = localStorage.getItem('firstName');
+
+  const navigate = useNavigate()
+
+
+    useEffect(()=> {
+      if(tokenData) {
+        setIsLoggedIn(true);
+        setUserName(nameData);
+      }
+    })
+  
+  const handleLogOut = () => {
+    if(tokenData) {
+      setIsLoggedIn(false);
+      setUserName('');
+      localStorage.clear()
+      window.location.reload();
+      navigate('/Home')
+    } else {
+      setIsLoggedIn(true);
+      setUserName(nameData);
+    }
+  };
+
   return (
     <Navbar expand="lg" className="navbar-dark bg-dark">
       <Container fluid>
@@ -19,10 +51,13 @@ function NavBar() {
             navbarScroll
           >
             <Nav.Link href="Home">Accueil</Nav.Link>
-            <NavDropdown title="Authentification" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="Connexion">Se connecter</NavDropdown.Item>
-              <NavDropdown.Item href="Inscription">S'inscrire</NavDropdown.Item>
-            </NavDropdown>
+            {!isLoggedIn ? (
+              <Nav.Link href="/connexion">Se connecter</Nav.Link>
+            ) : (
+              <NavDropdown title={nameData} id="navbarScrollingDropdown">
+                <NavDropdown.Item onClick={handleLogOut}>Déconnexion</NavDropdown.Item>
+              </NavDropdown>
+            )}
             <Nav.Link href="Panier">Panier</Nav.Link>
             <NavDropdown title="Admin" id="navbarScrollingDropdown">
               <NavDropdown.Item href="AdminProduit">Gérer les produits</NavDropdown.Item>

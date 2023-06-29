@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const AdminProduit = () => {
 
-    const [id, setId] = useState('')
+    // const [id, setId] = useState('')
     const [titre, setTitre] = useState('')
     const [image, setImage] = useState('')
     const [quantité, setQuantité] = useState('')
@@ -21,30 +23,37 @@ const AdminProduit = () => {
       fetchProduits();
     }, []);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
 
-        const produit = {titre, image, description, taille, prix, quantité, sport}
+      e.preventDefault();
 
-        const response = await fetch('http://localhost:3001/AdminProduit', {
-            method: 'POST',
-            body: JSON.stringify(produit),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        const json = await response.json()
+      const newUser = {
+        title: titre,
+        image: image,
+        description: description,
+        size: taille,
+        price: prix,
+        quantity: quantité,
+        sport: sport
+      };
+  
+        try{
+          const response = await axios.post('http://localhost:3001/adminProduit', newUser);
+          console.log(response.data);
+          setTitre('');
+          setImage('');
+          setDescription('');
+          setTaille('');
+          setPrix('');
+          setQuantité('');
+          setSport('');
 
-        if (!response.ok) {
-            console.log('Erreur de transmission des données')
-
-        } else {
-            setTitre('')
-            setQuantité('')
-            setPrix('')
-            setDescription('')
-            setSport('')
-            console.log('Produit ajouté ! ', json)
-        }
+          navigate('/Home')
+        } catch (error) {
+          console.error(error);
+      }
     } 
 
     return (
