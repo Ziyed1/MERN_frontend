@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,8 +12,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import axios from 'axios'
 
 function MadeWithLove() {
+
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Built with love by the "}
@@ -51,6 +53,40 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Inscription() {
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleSubmit = async (e) => { 
+    e.preventDefault();
+
+    const newUser = {
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      password: password
+    };
+
+    try {
+      const response = await axios.post('http://localhost:3001/admin', newUser);
+      console.log(response.data);
+      
+      setFirstName('');
+      setLastName('');
+      setPhone('');
+      setEmail('');
+      setPassword('');
+
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+
   const classes = useStyles();
 
   return (
@@ -63,7 +99,7 @@ export default function Inscription() {
         <Typography component="h1" variant="h5">
           Inscription
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -75,6 +111,7 @@ export default function Inscription() {
                 id="firstName"
                 label="Prénom"
                 autoFocus
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -86,6 +123,20 @@ export default function Inscription() {
                 label="Nom"
                 name="lastName"
                 autoComplete="lname"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="phone"
+                label="N° de téléphone"
+                type="phone"
+                id="phone"
+                autoComplete="phone"
+                onChange={(e) => setPhone(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -97,6 +148,8 @@ export default function Inscription() {
                 label="Addresse Email"
                 name="email"
                 autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+
               />
             </Grid>
             <Grid item xs={12}>
@@ -109,6 +162,7 @@ export default function Inscription() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
           </Grid>
