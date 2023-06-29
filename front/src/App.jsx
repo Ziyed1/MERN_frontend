@@ -6,6 +6,7 @@ import Connexion from './pages/Connexion'
 import Inscription from './pages/Inscription'
 import Panier from './pages/Panier'
 import AdminProduit from './pages/AdminProduit'
+import AdminUsers from './pages/AdminUsers'
 
 function App() {
   return (
@@ -14,11 +15,11 @@ function App() {
         <div className='pages'>
           <Routes>
             <Route
-              path='/Home'
+              path='/home'
               element={<Home />}
             />
             <Route
-              path='/Connexion'
+              path='/login'
               element={<Connexion />}
             />
             <Route
@@ -26,12 +27,20 @@ function App() {
               element={<Inscription />}
             />
             <Route
-              path='/Panier'
+              path='/panier'
               element={<Panier />}
             />
             <Route
               path='/AdminProduit'
               element={<AdminProduit />}
+            />
+             <Route
+              path='/AdminProduit'
+              element={<AdminProduit />}
+            />
+             <Route
+              path='/adminUsers'
+              element={<AdminUsers />}
             />
           </Routes>
         </div>

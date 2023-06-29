@@ -85,7 +85,7 @@ export default function Inscription() {
       setEmail('');
       setPassword('');
 
-      navigate('/Home')
+      navigate('/home')
 
     } catch (error) {
       console.error(error);

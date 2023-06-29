@@ -50,7 +50,7 @@ const AdminProduit = () => {
           setQuantité('');
           setSport('');
 
-          navigate('/Home')
+          navigate('/home')
         } catch (error) {
           console.error(error);
       }

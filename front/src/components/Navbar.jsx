@@ -11,10 +11,13 @@ import { useNavigate } from 'react-router-dom';
 function NavBar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState('');
 
   const tokenData = localStorage.getItem('token');
   const nameData = localStorage.getItem('firstName');
+  const adminData = localStorage.getItem('isAdmin');
+
 
   const navigate = useNavigate()
 
@@ -23,6 +26,9 @@ function NavBar() {
       if(tokenData) {
         setIsLoggedIn(true);
         setUserName(nameData);
+        if(adminData === 'true'){
+          setIsAdmin(true);
+        }
       }
     })
   
@@ -32,7 +38,7 @@ function NavBar() {
       setUserName('');
       localStorage.clear()
       window.location.reload();
-      navigate('/Home')
+      navigate('/home')
     } else {
       setIsLoggedIn(true);
       setUserName(nameData);
@@ -42,7 +48,7 @@ function NavBar() {
   return (
     <Navbar expand="lg" className="navbar-dark bg-dark">
       <Container fluid>
-        <Navbar.Brand href="Home">Ligue sportive d'Auvergne</Navbar.Brand>
+        <Navbar.Brand href="home">Ligue sportive d'Auvergne</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -50,19 +56,21 @@ function NavBar() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="Home">Accueil</Nav.Link>
+            <Nav.Link href="home">Accueil</Nav.Link>
             {!isLoggedIn ? (
-              <Nav.Link href="/connexion">Se connecter</Nav.Link>
+              <Nav.Link href="/login">Se connecter</Nav.Link>
             ) : (
               <NavDropdown title={nameData} id="navbarScrollingDropdown">
                 <NavDropdown.Item onClick={handleLogOut}>Déconnexion</NavDropdown.Item>
               </NavDropdown>
             )}
-            <Nav.Link href="Panier">Panier</Nav.Link>
+            <Nav.Link href="panier">Panier</Nav.Link>
+            {isLoggedIn && isAdmin && (
             <NavDropdown title="Admin" id="navbarScrollingDropdown">
               <NavDropdown.Item href="AdminProduit">Gérer les produits</NavDropdown.Item>
               <NavDropdown.Item href="AdminUsers">Gérer les utilisateurs</NavDropdown.Item>
             </NavDropdown>
+          )}
           </Nav>
           <Form className="d-flex">
             <Form.Control
