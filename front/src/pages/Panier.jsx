@@ -6,41 +6,42 @@ const Panier = () => {
     
   
     useEffect(() => {
-      const storedProduct = localStorage.getItem("cartItems");
-      if (storedProduct) {
-        const parsedProduct = JSON.parse(storedProduct);
-        setProducts([parsedProduct]); 
+      let Products = localStorage.getItem("produits");
+      if (Products) {
+        setProducts(JSON.parse(Products)); 
       }
     }, []);
   
-    // Fonction pour supprimer un produit du panier
-    const removeProduct = () => {
-      localStorage.removeItem("cartItems");
-      setProducts([]);
+
+    const deleteProduct = () => {
+      let Products = JSON.parse(localStorage.getItem("produits"));
+      if (Products && Products.length > 0) {
+        Products.pop()
+        localStorage.setItem("produits", JSON.stringify(Products))
+        setProducts(Products)
 
       setNotification("Produit supprimé du panier");
         setTimeout(() => {
             setNotification(null);
           }, 3000);
+        }
     };
 
     // Calcul du prix total des produits
     const totalPrice = products.reduce(
-      (accumulator, product) => accumulator + product.prix,
+      (accumulator, product) => accumulator + product.prix * product.quantity,
       0
     );
   
     return (
       <div className="panier">
         <h2>Votre Panier</h2>
-  
-        {/* Affichage des produits ajoutés */}
         <h3>Produits ajoutés :</h3>
         <ul>
           {products.map((product) => (
             <li key={product.id}>
-              {product.nom} - {product.prix} €
-              <button onClick={removeProduct}>Supprimer</button>
+              {product.nom} - {product.prix} € (Quantité: {product.quantity})
+              <button onClick={deleteProduct}>Supprimer</button>
             </li>
           ))}
         </ul>
