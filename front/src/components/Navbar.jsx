@@ -24,6 +24,10 @@ function NavBar() {
               <NavDropdown.Item href="Inscription">S'inscrire</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="Panier">Panier</Nav.Link>
+            <NavDropdown title="Admin" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="AdminProduit">Gérer les produits</NavDropdown.Item>
+              <NavDropdown.Item href="AdminUsers">Gérer les utilisateurs</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Form className="d-flex">
             <Form.Control

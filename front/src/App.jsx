@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Connexion from './pages/Connexion'
 import Inscription from './pages/Inscription'
 import Panier from './pages/Panier'
+import AdminProduit from './pages/AdminProduit'
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
             <Route
               path='/Panier'
               element={<Panier />}
+            />
+            <Route
+              path='/AdminProduit'
+              element={<AdminProduit />}
             />
           </Routes>
         </div>

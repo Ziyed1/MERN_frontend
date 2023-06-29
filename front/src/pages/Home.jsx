@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Ballon from '../assets/Ballon.jpg';
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -7,26 +7,41 @@ import Row from 'react-bootstrap/Row';
 
 const Home = () => {
     const [notification, setNotification] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [products, setProducts] = useState([]);
+
+    const categories = ['football', 'Natation', 'Tennis'];
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+          try {
+            const response = await fetch('http://localhost:3001');
+            const json = await response.json();
+            setProducts(json);
+          } catch (error) {
+            console.log('Une erreur s\'est produite lors de la récupération des données :', error);
+          }
+        };
+      
+        fetchProducts();
+      }, []);
+      
+      
+    
 
     function saveProducts(produits) {
         localStorage.setItem("produits", JSON.stringify(produits));
     }
 
-    function getProducts() {
-        const produits = localStorage.getItem("produits");
-        return produits ? JSON.parse(produits) : [];
-    }
-
     const addProducts = (product) => {
-        const produits = getProducts();
-        const foundProduct = produits.find(p => p.id === product.id);
+        const foundProduct = products.find(p => p.id === product.id);
         if (foundProduct) {
             foundProduct.quantity++;
         } else {
             product.quantity = 1;
-            produits.push(product);
+            products.push(product);
         }
-        saveProducts(produits);
+        saveProducts(products);
 
         setNotification("Produit ajouté au panier");
         setTimeout(() => {
@@ -34,64 +49,51 @@ const Home = () => {
         }, 3000);
     };
 
+    const filtrerProduits = (category) => {
+        setSelectedCategory(category);
+    };
+
+    const productsToShow = selectedCategory
+        ? products.filter(product => product.sport === selectedCategory)
+        : products;
+
     return (
         <div className="Home">
             <h2 className="title-margin">Nos Produits</h2>
+            <div className="categories">
+                <h3>Catégories :</h3>
+                <ul>
+                    {categories.map(category => (
+                        <li key={category} onClick={() => filtrerProduits(category)}>{category}</li>
+                    ))}
+                </ul>
+            </div>
             <Row>
-                <Col md={3}>
-                    <div className="d-flex justify-content-center">
-                        <Card className="mycard2" style={{ maxWidth: "18rem" }}>
-                            <Card.Img variant="top" src={Ballon} />
-                            <Card.Body>
-                                <Card.Title>Ballon de foot</Card.Title>
-                                <Card.Text>
-                                    39 €
-                                </Card.Text>
-                                <Card.Text>
-                                    Ballon de foot de ligue 1 taille 5
-                                </Card.Text>
-                                <Button
-                                    variant="primary"
-                                    onClick={() =>
-                                        addProducts({
-                                            id: 1,
-                                            nom: "Ballon de foot",
-                                            prix: 39,
-                                            description: "Ballon de foot de ligue 1 taille 5"
-                                        })
-                                    }
-                                >Ajouter au panier</Button>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                </Col>
-                <Col md={3}>
-                    <div className="d-flex justify-content-center">
-                        <Card className="mycard2" style={{ maxWidth: "18rem" }}>
-                            <Card.Img variant="top" src={Ballon} />
-                            <Card.Body>
-                                <Card.Title>BaseBall</Card.Title>
-                                <Card.Text>
-                                    59 €
-                                </Card.Text>
-                                <Card.Text>
-                                    Baseball
-                                </Card.Text>
-                                <Button
-                                    variant="primary"
-                                    onClick={() =>
-                                        addProducts({
-                                            id: 2,
-                                            nom: "BaseBall",
-                                            prix: 59,
-                                            description: "Baseball"
-                                        })
-                                    }
-                                >Ajouter au panier</Button>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                </Col>
+                {productsToShow.map((product) => (
+                    <Col md={3} key={product.id}>
+                        <div className="d-flex justify-content-center">
+                            <Card className="mycard2" style={{ maxWidth: "18rem" }}>
+                                <Card.Img variant="top" src={Ballon} />
+                                <Card.Body>
+                                    <Card.Title>{product.title}</Card.Title>
+                                    <Card.Text>
+                                        {product.prix} €
+                                    </Card.Text>
+                                    <Card.Text>
+                                        {product.description}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Catégorie : {product.sport}
+                                    </Card.Text>
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => addProducts(product)}
+                                    >Ajouter au panier</Button>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Col>
+                ))}
             </Row>
             {/* Notification */}
             <div className={`notification ${notification ? 'show' : ''}`}>
