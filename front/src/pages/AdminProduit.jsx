@@ -22,7 +22,6 @@ const AdminProduit = () => {
     }, []);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
 
         const produit = {titre, image, description, taille, prix, quantité, sport}
 

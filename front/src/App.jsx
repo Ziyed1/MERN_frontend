@@ -10,7 +10,6 @@ import AdminProduit from './pages/AdminProduit'
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
         <Navbar />
         <div className='pages'>
           <Routes>
@@ -36,7 +35,6 @@ function App() {
             />
           </Routes>
         </div>
-      </BrowserRouter>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 function MadeWithLove() {
 
@@ -60,8 +61,11 @@ export default function Inscription() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => { 
-    e.preventDefault();
+
+    e.preventDefault()
 
     const newUser = {
       firstName: firstName,
@@ -80,6 +84,8 @@ export default function Inscription() {
       setPhone('');
       setEmail('');
       setPassword('');
+
+      navigate('/Home')
 
     } catch (error) {
       console.error(error);
