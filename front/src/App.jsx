@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Connexion from './pages/Connexion'
 import Inscription from './pages/Inscription'
+import Panier from './pages/Panier'
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
             <Route
               path='/Inscription'
               element={<Inscription />}
+            />
+            <Route
+              path='/Panier'
+              element={<Panier />}
             />
           </Routes>
         </div>
