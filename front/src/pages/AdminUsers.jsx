@@ -22,9 +22,15 @@ export default function AdminUsers() {
     console.log(users)
 
     return (
-        <div>
-          <h3>Catégories :</h3>
-        </div>
-      );
+      <div>
+        <h3>Utilisateurs :</h3>
+        {Object.entries(users).map(([userId, user]) => (
+          <div key={userId}>
+            <p>Nom : {user}</p>
+            <p>Prénom : {user}</p>
+          </div>
+        ))}
+      </div>
+    );
       
 }

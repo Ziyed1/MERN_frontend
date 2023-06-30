@@ -7,6 +7,7 @@ import Inscription from './pages/Inscription'
 import Panier from './pages/Panier'
 import AdminProduit from './pages/AdminProduit'
 import AdminUsers from './pages/AdminUsers'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
              <Route
               path='/adminUsers'
               element={<AdminUsers />}
+            />
+            <Route
+              path='/profil'
+              element={<Profile />}
             />
           </Routes>
         </div>

@@ -61,6 +61,7 @@ function NavBar() {
               <Nav.Link href="/login">Se connecter</Nav.Link>
             ) : (
               <NavDropdown title={nameData} id="navbarScrollingDropdown">
+                <NavDropdown.Item href="profil">Gérer le profil</NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogOut}>Déconnexion</NavDropdown.Item>
               </NavDropdown>
             )}

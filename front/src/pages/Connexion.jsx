@@ -24,10 +24,11 @@ export default  function Connexion() {
 
     try {
       const response = await axios.post('http://localhost:3001/login', { email, password});
-      console.log(response.data.user);
+      console.log(response.data.user.id);
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('firstName',response.data.user.firstName)
       localStorage.setItem('lastName',response.data.user.lastName)
+      localStorage.setItem('id',response.data.user.id)
       localStorage.setItem('isAdmin',response.data.user.isAdmin)
 
       if (response.status === 200) {
