@@ -10,7 +10,7 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [products, setProducts] = useState([]);
 
-    const categories = ['football', 'Natation', 'Tennis'];
+    const categories = ['Tous','football', 'Natation', 'tennis'];
 
     useEffect(() => {
         const fetchProducts = async () => {

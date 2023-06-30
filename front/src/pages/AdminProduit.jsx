@@ -29,18 +29,18 @@ const AdminProduit = () => {
 
       e.preventDefault();
 
-      const newUser = {
+      const newProduct = {
         title: titre,
         image: image,
         description: description,
         size: taille,
-        price: prix,
+        prix: prix,
         quantity: quantité,
         sport: sport
       };
   
         try{
-          const response = await axios.post('http://localhost:3001/adminProduit', newUser);
+          const response = await axios.post('http://localhost:3001/adminProduit', newProduct);
           console.log(response.data);
           setTitre('');
           setImage('');
