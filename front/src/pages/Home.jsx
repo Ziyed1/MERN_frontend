@@ -73,7 +73,7 @@ const Home = () => {
                     <Col md={3} key={product.id}>
                         <div className="d-flex justify-content-center">
                             <Card className="mycard2" style={{ maxWidth: "18rem" }}>
-                                <Card.Img variant="top" src={Ballon} />
+                                <Card.Img variant="top" src={product.image} />
                                 <Card.Body>
                                     <Card.Title>{product.title}</Card.Title>
                                     <Card.Text>
